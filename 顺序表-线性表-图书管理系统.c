@@ -3,7 +3,11 @@
 #include <stdbool.h>
 #include <string.h>
 
-#include "status.h"
+typedef enum {
+	ERROR = 0,
+	OK = 1
+} Status;
+
 
 #define MAX_SIZE 10  // 初始容量（支持动态扩容）
 #define IBSN_SIZE 10

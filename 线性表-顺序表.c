@@ -1,13 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-
-#include "status.h"
+#include <errno.h>
 
 #define MAX_SIZE 100      // 顺序表最大容量
 
 typedef int ElemType;    // 元素类型（可按需修改）
 
+typedef enum {
+	ERROR = 0,
+	OK = 1
+} Status;
 
 typedef struct SqList{
 	ElemType* elem; // 用指针指向动态分配的数组
@@ -149,7 +152,7 @@ int main() {
 	printf("\n===== 测试8：销毁表 =====\n");
 	SqList_Destroy(&L);
 	ret = SqList_Length(L);
-	if (ret == UNINITIALIZED) {
+	if (ret == ENOBUFS) {
 		printf("销毁表后，表处于未初始化状态（符合预期）\n");
 	}
 	
@@ -165,7 +168,7 @@ Status SqList_Init(SqList *L) {
 	
 	// 内存分配失败（malloc返回NULL），直接终止程序
 	if (L->elem == NULL) {
-		exit(OVERFLOW);
+		exit(EOVERFLOW);
 	}
 	
 	L->length = 0; // 初始化长度为0
